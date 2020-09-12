@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/express.css">
+    <script src="./js/expressData.js"></script>
+    <script src="./js/express.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <style>
+        .box
+        {
+            width: 70%;
+            margin:0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <input type="text" name="" id="test">
+    </div>
+    <button onclick="reset()">重置</button>
+    <!-- <express>
+        <div class="ex_title">
+            温馨提示：可直接输入快递公司或快递公司拼音
+        </div>
+        <section class="ex_main">
+            <div class="ex_cate">
+                <ul class="ex_cate_container">
+                    <li data-name="lately" class="ex_active">最近使用</li>
+                    <li data-name="hot" >热门</li>
+                    <li data-name="abc">ABC</li>
+                    <li data-name="def">DEF</li>
+                    <li data-name="ghj">GHJ</li>
+                    <li data-name="klm">KLM</li>
+                    <li data-name="npq">NPQ</li>
+                    <li data-name="rst">RST</li>
+                    <li data-name="wxy">WXY</li>
+                    <li data-name="z">Z</li>
+                </ul>
+            </div>
+            <div class="ex_list_container">
+                <ul class="ex_list">
+                    
+                </ul>
+                <span class="ex_tips">暂无数据</span>
+            </div>
+        </section>
+        <section class="ex_search">
+            <div class="ex_search_container">
+                <ul>
+                  
+                </ul>
+                <span class="ex_tips">暂无数据</span>
+            </div>
+        </section>
+    </express>   -->
+</body>
+</html>
+
+<script>
+    // 实例化
+    let express = new Express('#test');
+    function reset()
+    {
+        express.handleReset();
+    }
+        (function(){
+            /* 设计图文档宽度 */
+            var docWidth = 750;
+            
+            var doc = window.document,
+            docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+            
+            var recalc = (function refreshRem () {
+            var clientWidth = docEl.getBoundingClientRect().width;
+            
+            /* 8.55：小于320px不再缩小，11.2：大于420px不再放大 */
+            docEl.style.fontSize = Math.max(Math.min(20 * (clientWidth / docWidth), 11.2), 8.55) * 5 + 'px';
+                return refreshRem;
+            })();
+            
+            /* 添加倍屏标识，安卓为1 */
+            docEl.setAttribute('data-dpr', (window.navigator.appVersion.match(/iphone/gi) ? window.devicePixelRatio : 1).toString());
+            
+            if (/iP(hone|od|ad)/.test(window.navigator.userAgent)) {
+            /* 添加IOS标识 */
+            doc.documentElement.classList.add('ios');
+            /* IOS8以上给html添加hairline样式，以便特殊处理 */
+            if (parseInt(window.navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/)[1], 10) >= 8)
+                doc.documentElement.classList.add('hairline');
+            }
+            if (!doc.addEventListener) return;
+            window.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        }())
+
+
+</script>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文件上传</title>
+    <link rel="stylesheet" href="./layer/theme/default/layer.css">
+    <script src="./js/jquery-2.1.1.min.js"></script>
+    <script src="./layer/layer.js"></script>
+    <script src="./js/uploadFile.js"></script>
+    <style>
+        *
+        {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div style="width:800px;margin:0 auto">
+        <div class="a"></div>
+        <label for="upload">
+            <input type="file" id="upload">
+        </label>
+        <button class="uploadFile">提交</button>
+        <button class="clearFile">清除</button>
+        <div class="draw_content" style="margin-top: 20px;"></div>
+    </div>
+</body> 
+</html>
+<script>
+    
+    var upload = new UploadFile({
+        url:'http://106.12.56.172/admin.php/api/api/upload',
+        data:{
+            skuId:10085,
+            mapStr:JSON.stringify({
+                type:'2'
+            }),
+        },   
+        el:'#upload',
+        suffix:['jpg','png'],/* 允许的图片类型 */
+        maxFile:5, /* 文件最大上传数 */
+        size:1, /* 上传大小 */
+        specs:['800*800','342*325'], //允许上传的尺寸
+        drag:{
+            el:'.draw_content', /* 图片显示容器 */
+            text:'拖拽文件到此处上传',
+            width:800,
+            height:400,
+            enterLineColor:'red',
+        },
+        dragChildEl:{ /* 生成的图片样式宽度 */
+            width:'150',
+        },
+        isRepeat:false, /* 验证重复图片 */
+        // isDirectUpload:true, /* 直接上传图片 */
+        successText:'上传成功', /* 页面上传成功文字状态 */
+        errorText:'上传失败', /* 页面上传失败文字状态 */
+    })
+    console.log(upload)
+    //清除图片
+    $('.clearFile').click(function (){
+        upload.handleClearFile()
+    })
+    //提交上传
+    $('.uploadFile').click(function (){
+        //图片上传
+        upload.handleUpload(function(res){
+            //回调数据
+            console.log(res)
+        })
+    })
+    //上传图片回调（直接上传）
+    upload.handleCallback(function(res){
+        //成功回调
+        console.log('success')
+        console.log(res);
+    },function(e){
+        //失败回调
+        console.log(e)
+    })
+</script>

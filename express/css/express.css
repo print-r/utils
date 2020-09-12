@@ -1,0 +1,134 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+express {
+  position: absolute;
+  display: none;
+  width: 80%;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  z-index: 12;
+}
+
+express .ex_title {
+  color: #fff;
+  font-size: 0.22rem;
+  padding: .2rem .25rem;
+  background-color: #67A1E2;
+}
+
+express .ex_tips {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: none;
+  color: #999;
+  font-size: 0.24rem;
+  transform: translate(-50%, -50%);
+}
+
+.ex_main {
+  font-size: 0.22rem;
+  border: 1px solid #D7D8DA;
+}
+
+.ex_main .ex_cate {
+  margin-top: 0.1rem;
+  overflow: scroll;
+}
+
+.ex_main .ex_cate::-webkit-scrollbar {
+  display: none;
+  /* Chrome Safari */
+}
+
+.ex_main .ex_cate .ex_cate_container {
+  display: flex;
+  color: #2C7ECF;
+  width: 15rem;
+  text-align: center;
+}
+
+.ex_main .ex_cate .ex_cate_container li {
+  width: 1.5rem;
+  padding: .1rem 0;
+  border-bottom: 1px solid #2C7ECF;
+}
+
+.ex_main .ex_cate .ex_cate_container li:first-child {
+  border-left: none !important;
+}
+
+.ex_main .ex_cate .ex_cate_container li:last-child {
+  border-right: none !important;
+}
+
+.ex_main .ex_cate .ex_cate_container .ex_active {
+  color: #333;
+  font-weight: 700;
+  border-top: 1px solid #2C7ECF;
+  border-left: 1px solid #2C7ECF;
+  border-right: 1px solid #2C7ECF;
+  border-bottom: 0;
+}
+
+.ex_main .ex_list_container {
+  position: relative;
+  height: 204px;
+  overflow: scroll;
+}
+
+.ex_main .ex_list_container::-webkit-scrollbar {
+  display: none;
+  /* Chrome Safari */
+}
+
+.ex_main .ex_list_container .ex_list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: .3rem .25rem 0;
+}
+
+.ex_main .ex_list_container .ex_list li {
+  width: 1.2rem;
+  margin: 0 .2rem .3rem;
+  display: -webkit-box !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.ex_search {
+  display: none;
+  padding: 0 .25rem;
+}
+
+.ex_search .ex_search_container {
+  position: relative;
+  overflow: scroll;
+}
+
+.ex_search .ex_search_container::-webkit-scrollbar {
+  display: none;
+  /* Chrome Safari */
+}
+
+.ex_search .ex_search_container ul {
+  height: 204px;
+  font-size: 0.22rem;
+  color: #67A1E2;
+}
+
+.ex_search .ex_search_container ul li {
+  display: flex;
+  justify-content: space-between;
+  padding: .1rem 0;
+}

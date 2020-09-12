@@ -1,0 +1,9 @@
+需要引入animate.css；
+
+types放在src目录下面，然后在shims-vue.d.ts文件引入layerd的声明文件；
+
+main.ts引入layerd对象，全局注册:Vue.prototype.$layerd = layerd；
+
+
+
+
