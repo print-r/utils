@@ -280,18 +280,20 @@ class Pagination implements IPagination {
     getBetween(): IBetween {
         // 最小下标
         let min = this.options.pageIndex - Math.floor(this.options.pageCount / 2);
-        // 最小值
-        if (min <= 1) min = 1;
         // 最小下标最大值
         if (min > this.pageNum - this.options.pageCount) {
             min = this.pageNum - this.options.pageCount  + 1;
         }
+        // 最小值
+        if (min <= 1) min = 1;
         // 最大下标
         let max = this.options.pageIndex + Math.floor(this.options.pageCount / 2);
-        // 最大值
-        if (max > this.pageNum) max = this.pageNum;
         // 最大下标最小值
         if (max < this.options.pageCount) max = this.options.pageCount;
+        // 最大值
+        if (max > this.pageNum) max = this.pageNum;
+        console.log({min, max});
+        
         return {min, max};
     }
 

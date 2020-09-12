@@ -228,21 +228,22 @@ var Pagination = /** @class */ (function () {
     Pagination.prototype.getBetween = function () {
         // 最小下标
         var min = this.options.pageIndex - Math.floor(this.options.pageCount / 2);
-        // 最小值
-        if (min <= 1)
-            min = 1;
         // 最小下标最大值
         if (min > this.pageNum - this.options.pageCount) {
             min = this.pageNum - this.options.pageCount + 1;
         }
+        // 最小值
+        if (min <= 1)
+            min = 1;
         // 最大下标
         var max = this.options.pageIndex + Math.floor(this.options.pageCount / 2);
-        // 最大值
-        if (max > this.pageNum)
-            max = this.pageNum;
         // 最大下标最小值
         if (max < this.options.pageCount)
             max = this.options.pageCount;
+        // 最大值
+        if (max > this.pageNum)
+            max = this.pageNum;
+        console.log({ min: min, max: max });
         return { min: min, max: max };
     };
     Pagination.prototype.generateArray = function (start, end) {
