@@ -292,8 +292,6 @@ class Pagination implements IPagination {
         if (max < this.options.pageCount) max = this.options.pageCount;
         // 最大值
         if (max > this.pageNum) max = this.pageNum;
-        console.log({min, max});
-        
         return {min, max};
     }
 
