@@ -321,16 +321,12 @@ class Pagination implements IPagination {
 
         if (!document.querySelector(options.element)) throw new Error('element of null');
 
-        try {
-            ['type', 'pageIndex', 'pageSize', 'pageCount', 'total'].forEach( v => {
-                if (options[v]) {
-                    if (isNaN(options[v])) throw new Error(`${v} not an number`);
-                    if (v === 'pageCount' && options[v] % 2 === 0) throw new Error(`${v} not an odd number`);
-                }
-            })
-        } catch(error) {
-            throw new Error(error);
-        }
+        ['type', 'pageIndex', 'pageSize', 'pageCount', 'total'].forEach( v => {
+            if (options[v]) {
+                if (isNaN(options[v])) throw new Error(`${v} not an number`);
+                if (v === 'pageCount' && options[v] % 2 === 0) throw new Error(`${v} not an odd number`);
+            }
+        });
 
         return true;
     }
