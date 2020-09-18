@@ -258,8 +258,15 @@ var Pagination = /** @class */ (function () {
                     lis = _this_1.createElement('li', __spreadArrays(['_sizes_select_li'], active));
                     lis.innerText = v + "\u6761/\u9875";
                     lis.addEventListener('click', function () {
-                        _this.selectedIndex = key;
-                        _this.handleChangePage(1);
+                        if (_this.selectedIndex !== key) {
+                            _this.selectedIndex = key;
+                            _this.handleChangePage(1);
+                        }
+                        else {
+                            var mode_1 = _this.showSelector ? 'remove' : 'add';
+                            box.classList[mode_1]('_sizes_select_container_show');
+                            _this.showSelector = !_this.showSelector;
+                        }
                     });
                     ul.appendChild(lis);
                 }

@@ -312,8 +312,14 @@ class Pagination implements IPagination {
                     lis = this.createElement('li', ['_sizes_select_li', ...active]);
                     lis.innerText = `${v}条/页`;
                     lis.addEventListener('click', function() {
-                        _this.selectedIndex = key;
-                        _this.handleChangePage(1);
+                        if (_this.selectedIndex !== key) {
+                            _this.selectedIndex = key;
+                            _this.handleChangePage(1);
+                        } else {
+                            let mode = _this.showSelector ? 'remove' : 'add';
+                            (box as any).classList[mode]('_sizes_select_container_show');
+                            _this.showSelector = !_this.showSelector;
+                        }
                     });
                     ul.appendChild(lis);
                 }
