@@ -36,14 +36,15 @@
         layout: 'total, sizes, home, prev, pager, next, last, jumper',  // [必填]
         pageIndex: 1, // 当前页码 [非必填]
         pageSize: 10, // 每页显示条数   TODO: 如果使用了sizes这里就无须传参，传了也无效 [必填]
-        pageCount: 9, // 页码显示数量，默认页码9  TODO:为了样式美观，参数只能为奇数， 否则会报错 [非必填]
+        pageCount: 9, // 页码显示数量，页码必须大于等于5的奇数，默认页码9  TODO:为了样式美观，参数只能为奇数， 否则会报错 [非必填]
         total: 1000, // 数据总条数 [必填]
         singlePageHide: false,  // 单页隐藏， 默认true  如果为true页码少于一页则不会渲染 [非必填]
         pageSizes: [5, 20, 30, 40, 50], // 选择每页条数  TODO: layout的sizes属性存在才生效
         prevText: '上一页', // 上一页文字，不传默认为箭头图标  [非必填]
         nextText: '下一页', // 下一页文字，不传默认为箭头图标 [非必填]
+        ellipsis: true, // 页码显示省略符 默认false  [非必填]
         disabled: true, // 显示禁用手势 默认false  [非必填]
-        currentChange: function(index, pageSize) {  // 页码改变时回调  TODO:  第一个参数是当前页码，第二个参数是每页显示条数数量，需使用sizes第二参数才有值。
+        currentChange: function(index, pageSize) {  // 页码改变时回调  TODO:第一个参数是当前页码，第二个参数是每页显示条数数量，需使用sizes第二参数才有值。
             console.log(index,pageSize);
         }
     });

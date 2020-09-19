@@ -45,10 +45,15 @@ interface IPaginationOptions {
     layout: string | ''
     prevText: string | ''
     nextText: string | ''
+    ellipsis: boolean
     singlePageHide: boolean
     disabled: boolean
     currentChange: (index: number, pageSize?: number) => void
     [key: string]: any
+}
+
+interface IElementId {
+    _id: string
 }
 
 class Pagination implements IPagination {
@@ -86,6 +91,9 @@ class Pagination implements IPagination {
 
         // 下一页文字
         nextText: '',
+
+        // 页码显示省略
+        ellipsis: false,
 
         // 单页隐藏
         singlePageHide: true,
@@ -192,27 +200,64 @@ class Pagination implements IPagination {
     pager(): HTMLElement {
         let _this = this,
         li,
-        active;
+        active,
+        attr;
         // 页码容器
         let ul = this.createElement('ul', ['_pages', `_pages_${this.options.type}`]);
         // 区间值
         let between = this.getBetween();
-        for(let i = 1; i <= this.pageNum; i++) {
-            if (i >= between.min && i <= between.max) {
-                active = i === this.options.pageIndex ? [`_active_${this.options.type}`] : [];
-                // 手势禁止
-                if (i === this.options.pageIndex && this.options.disabled) active.push('_disabled');
-                li = this.createElement('li', [`_pages_li_${this.options.type}`, ...active]) as HTMLLIElement;
-                li.innerText = i.toString();
-                li.setAttribute('data-index', i.toString());
-                li.addEventListener('click', function(this: HTMLElement){
-                    if ((this as any).dataset.index != _this.options.pageIndex) {
-                        _this.handleChangePage(Number(this.dataset.index));
-                    }
-                });
-                ul.appendChild(li);
+        // 生成区间值
+        let arrs = this.generateArray(between.min, between.max);
+        // 显示省略页码
+        if (this.options.ellipsis) {
+            // 判断是否不存在最小页码
+            if (arrs[0] > 1) {
+                arrs.splice(1, 0, '...');
+                arrs[0] = 1;
+            }
+            // 判断是否不存在最大页码
+            if (arrs[arrs.length - 1] < this.pageNum) {
+                arrs.splice(arrs.length - 1, 0, '...');
+                arrs[arrs.length - 1] = this.pageNum;
             }
         }
+        // 生成页码
+        arrs.forEach( (v: number, k: number) => {
+            active = v === this.options.pageIndex ? [`_active_${this.options.type}`] : [];
+            // 手势禁止
+            if (v === this.options.pageIndex && this.options.disabled) active.push('_disabled');
+            li = this.createElement('li', [`_pages_li_${this.options.type}`, ...active]) as HTMLLIElement & IElementId;
+            if (isNaN(v)) {
+                if (k <= 1) {
+                    attr = 'prev';
+                    li.classList.add('_pager_prev');
+                } else {
+                    attr = 'next';
+                    li.classList.add('_pager_next');
+                }
+                li._id = attr;
+            } else {
+                li.innerText = v.toString();
+            }
+            li.addEventListener('click', function(this: HTMLElement & IElementId){
+                // 省略号向上跳转
+                if (this._id === 'prev') {
+                    let prevIndex = _this.options.pageIndex - _this.options.pageCount + 2;
+                    _this.handleChangePage(prevIndex < 1 ? 1 : prevIndex);
+                    return;
+                }
+                // 省略号向下跳转
+                if (this._id === 'next') {
+                    let nextIndex = _this.options.pageIndex + _this.options.pageCount - 2;
+                    _this.handleChangePage(nextIndex > _this.pageNum ? _this.pageNum : nextIndex);
+                    return;
+                }
+                if (v != _this.options.pageIndex) {
+                    _this.handleChangePage(v);
+                }
+            });
+            ul.appendChild(li);
+        });
         return ul;
     }
 
@@ -384,7 +429,11 @@ class Pagination implements IPagination {
     
     // 生成区间数组
     generateArray(start: number, end: number) {
-        return (Array as any).from((new Array(end + 1) as any).keys()).slice(start);
+        let arr = [];
+        for(let i = start; i <= end; i++) {
+            arr.push(i);
+        }
+        return arr;
     }
 
     // 创建元素
@@ -417,6 +466,7 @@ class Pagination implements IPagination {
             if (options[v]) {
                 if (isNaN(options[v])) throw new Error(`${v} not an number`);
                 if (v === 'pageCount' && options[v] % 2 === 0) throw new Error(`${v} not an odd number`);
+                if (v === 'pageCount' && options[v] < 4) throw new Error(`${v} must be greater than four`);
             }
         });
 

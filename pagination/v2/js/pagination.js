@@ -35,6 +35,8 @@ var Pagination = /** @class */ (function () {
             prevText: '',
             // 下一页文字
             nextText: '',
+            // 页码显示省略
+            ellipsis: false,
             // 单页隐藏
             singlePageHide: true,
             // 是否禁用
@@ -133,28 +135,67 @@ var Pagination = /** @class */ (function () {
     };
     // 页码
     Pagination.prototype.pager = function () {
-        var _this = this, li, active;
+        var _this_1 = this;
+        var _this = this, li, active, attr;
         // 页码容器
         var ul = this.createElement('ul', ['_pages', "_pages_" + this.options.type]);
         // 区间值
         var between = this.getBetween();
-        for (var i = 1; i <= this.pageNum; i++) {
-            if (i >= between.min && i <= between.max) {
-                active = i === this.options.pageIndex ? ["_active_" + this.options.type] : [];
-                // 手势禁止
-                if (i === this.options.pageIndex && this.options.disabled)
-                    active.push('_disabled');
-                li = this.createElement('li', __spreadArrays(["_pages_li_" + this.options.type], active));
-                li.innerText = i.toString();
-                li.setAttribute('data-index', i.toString());
-                li.addEventListener('click', function () {
-                    if (this.dataset.index != _this.options.pageIndex) {
-                        _this.handleChangePage(Number(this.dataset.index));
-                    }
-                });
-                ul.appendChild(li);
+        // 生成区间值
+        var arrs = this.generateArray(between.min, between.max);
+        // 显示省略页码
+        if (this.options.ellipsis) {
+            // 判断是否不存在最小页码
+            if (arrs[0] > 1) {
+                arrs.splice(1, 0, '...');
+                arrs[0] = 1;
+            }
+            // 判断是否不存在最大页码
+            if (arrs[arrs.length - 1] < this.pageNum) {
+                arrs.splice(arrs.length - 1, 0, '...');
+                arrs[arrs.length - 1] = this.pageNum;
             }
         }
+        // 生成页码
+        arrs.forEach(function (v, k) {
+            active = v === _this_1.options.pageIndex ? ["_active_" + _this_1.options.type] : [];
+            // 手势禁止
+            if (v === _this_1.options.pageIndex && _this_1.options.disabled)
+                active.push('_disabled');
+            li = _this_1.createElement('li', __spreadArrays(["_pages_li_" + _this_1.options.type], active));
+            if (isNaN(v)) {
+                if (k <= 1) {
+                    attr = 'prev';
+                    li.classList.add('_pager_prev');
+                }
+                else {
+                    attr = 'next';
+                    li.classList.add('_pager_next');
+                }
+                li._id = attr;
+            }
+            else {
+                li.innerText = v.toString();
+            }
+            li.addEventListener('click', function () {
+                // 省略号向上跳转
+                if (this._id === 'prev') {
+                    var prevIndex = _this.options.pageIndex - _this.options.pageCount + 2;
+                    _this.handleChangePage(prevIndex < 1 ? 1 : prevIndex);
+                    return;
+                }
+                // 省略号向下跳转
+                if (this._id === 'next') {
+                    var nextIndex = _this.options.pageIndex + _this.options.pageCount - 2;
+                    _this.handleChangePage(nextIndex > _this.pageNum ? _this.pageNum : nextIndex);
+                    return;
+                }
+                if (v != _this.options.pageIndex) {
+                    _this.handleChangePage(v);
+                }
+            });
+            ul.appendChild(li);
+        });
         return ul;
     };
     // 下一页
@@ -332,7 +373,11 @@ var Pagination = /** @class */ (function () {
     };
     // 生成区间数组
     Pagination.prototype.generateArray = function (start, end) {
-        return Array.from(new Array(end + 1).keys()).slice(start);
+        var arr = [];
+        for (var i = start; i <= end; i++) {
+            arr.push(i);
+        }
+        return arr;
     };
     // 创建元素
     Pagination.prototype.createElement = function (tag, classList) {
@@ -365,6 +410,8 @@ var Pagination = /** @class */ (function () {
                     throw new Error(v + " not an number");
                 if (v === 'pageCount' && options[v] % 2 === 0)
                     throw new Error(v + " not an odd number");
+                if (v === 'pageCount' && options[v] < 4)
+                    throw new Error(v + " must be greater than four");
             }
         });
         return true;
