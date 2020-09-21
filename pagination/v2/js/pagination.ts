@@ -133,8 +133,6 @@ class Pagination implements IPagination {
 
     // 渲染
     render(this: IPagination): void {
-        // 清空元素
-        (this as any).element.innerHTML = '';
         // 切换每页显示条数重新替换每页条数参数
         if (this.options.layout.indexOf('sizes') !== -1 && this.options.pageSizes instanceof Array) {
             if (!isNaN(this.options.pageSizes[this.selectedIndex])) {
@@ -144,7 +142,11 @@ class Pagination implements IPagination {
         // 总页数
         this.pageNum = Math.ceil(this.options.total / this.options.pageSize);
         // 单页隐藏
-        if (this.pageNum === 1 && this.options.singlePageHide) return;
+        if (this.pageNum === 1 && this.options.singlePageHide) {
+            // 清空元素
+            (this as any).element.innerHTML = '';
+            return;
+        }
         // 最大页码
         if (this.options.pageIndex > this.pageNum) this.options.pageIndex = this.pageNum;
         // 最小页码
@@ -159,8 +161,14 @@ class Pagination implements IPagination {
                 element && container.appendChild(element);
             }
         });
-        // 保存元素
-        (this as any).element.appendChild(container);
+        let old_container = document.querySelector(`${this.options.element} ._page_container`);
+        if (old_container) {
+            // 保存元素
+            (this as any).element.replaceChild(container, old_container);
+        } else {
+            // 保存元素
+            (this as any).element.appendChild(container);
+        }
     }
 
     // 首页
@@ -207,7 +215,7 @@ class Pagination implements IPagination {
         // 区间值
         let between = this.getBetween();
         // 生成区间值
-        let arrs = this.generateArray(between.min, between.max);
+        let arrs: any[] = this.generateArray(between.min, between.max);
         // 显示省略页码
         if (this.options.ellipsis) {
             // 判断是否不存在最小页码

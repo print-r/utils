@@ -66,8 +66,6 @@ var Pagination = /** @class */ (function () {
     // 渲染
     Pagination.prototype.render = function () {
         var _this_1 = this;
-        // 清空元素
-        this.element.innerHTML = '';
         // 切换每页显示条数重新替换每页条数参数
         if (this.options.layout.indexOf('sizes') !== -1 && this.options.pageSizes instanceof Array) {
             if (!isNaN(this.options.pageSizes[this.selectedIndex])) {
@@ -77,8 +75,11 @@ var Pagination = /** @class */ (function () {
         // 总页数
         this.pageNum = Math.ceil(this.options.total / this.options.pageSize);
         // 单页隐藏
-        if (this.pageNum === 1 && this.options.singlePageHide)
+        if (this.pageNum === 1 && this.options.singlePageHide) {
+            // 清空元素
+            this.element.innerHTML = '';
             return;
+        }
         // 最大页码
         if (this.options.pageIndex > this.pageNum)
             this.options.pageIndex = this.pageNum;
@@ -95,8 +96,15 @@ var Pagination = /** @class */ (function () {
                 element && container.appendChild(element);
             }
         });
-        // 保存元素
-        this.element.appendChild(container);
+        var old_container = document.querySelector(this.options.element + " ._page_container");
+        if (old_container) {
+            // 保存元素
+            this.element.replaceChild(container, old_container);
+        }
+        else {
+            // 保存元素
+            this.element.appendChild(container);
+        }
     };
     // 首页
     Pagination.prototype.home = function () {
