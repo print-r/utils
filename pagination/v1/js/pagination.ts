@@ -18,7 +18,7 @@ interface IPagination {
     getBetween: () => IBetween
     generateArray: (start: number, end: number) => number[]
     createElement: (tag: string, classList?: string | string[]) => HTMLElement
-    handleClick: (index: number) => void
+    handleChangePage: (index: number) => void
     validate: (options: IPaginationOptions) => boolean | undefined
     setOptions: (options: IPaginationOptions) => void
 }
@@ -145,7 +145,7 @@ class Pagination implements IPagination {
             this.home.innerText = '首页';
             this.home.addEventListener('click', () => {
                 if (this.options.pageIndex > 1) {
-                    this.handleClick(1);
+                    this.handleChangePage(1);
                 }
             });
             ul.appendChild(this.home);
@@ -157,7 +157,7 @@ class Pagination implements IPagination {
         // 上一页事件
         this.prev.addEventListener('click', () => {
             if (this.options.pageIndex - 1 > 0) {
-                this.handleClick(this.options.pageIndex - 1);
+                this.handleChangePage(this.options.pageIndex - 1);
             }
         });
         ul.appendChild(this.prev);
@@ -173,7 +173,7 @@ class Pagination implements IPagination {
                 li.setAttribute('data-index', i.toString());
                 li.addEventListener('click', function(this: HTMLElement){
                     if ((this as any).dataset.index != _this.options.pageIndex) {
-                        _this.handleClick(Number(this.dataset.index));
+                        _this.handleChangePage(Number(this.dataset.index));
                     }
                 });
                 this.lis?.push(li);
@@ -191,7 +191,7 @@ class Pagination implements IPagination {
         // 下一页事件
         this.next.addEventListener('click', () => {
             if (this.options.pageIndex < this.pageNum) {
-                this.handleClick(this.options.pageIndex + 1);
+                this.handleChangePage(this.options.pageIndex + 1);
             }
         });
         ul.appendChild(this.next);
@@ -201,7 +201,7 @@ class Pagination implements IPagination {
             this.last.innerText = '尾页';
             this.last.addEventListener('click', () => {
                 if (this.options.pageIndex < this.pageNum) {
-                    this.handleClick(this.pageNum);
+                    this.handleChangePage(this.pageNum);
                 }
             });
             ul.appendChild(this.last);
@@ -225,13 +225,19 @@ class Pagination implements IPagination {
             this.input.value = this.options.pageIndex.toString();
             this.input.setAttribute('min', '1');
             this.input.setAttribute('max', this.pageNum.toString());
-            this.input.addEventListener('blur', function() {
-                value = ~~this.value;
-                if (value < 1)  value = 1;
-                if (value > _this.pageNum) value = _this.pageNum;
-                // @ts-ignore
-                this.value = value;
-                if (value !== _this.options.pageIndex) _this.handleClick(value);
+            let handle = ['blur', 'keydown'];
+            handle.forEach( (v: string) => {
+                (this as any).input.addEventListener(v, function(this: HTMLInputElement, e: any) {
+                    if (e.type === 'keydown' && e.keyCode !== 13) {
+                        return;
+                    }
+                    value = ~~this.value;
+                    if (value < 1)  value = 1;
+                    if (value > _this.pageNum) value = _this.pageNum;
+                    // @ts-ignore
+                    this.value = value;
+                    if (value !== _this.options.pageIndex) _this.handleChangePage(value);
+                });
             });
             jumper.appendChild(this.input);
             let text_2 = this.createElement('span');
@@ -244,7 +250,7 @@ class Pagination implements IPagination {
         (this as any).element.appendChild(container);
     }
 
-    handleClick(index: number): void {
+    handleChangePage(index: number): void {
         this.options.pageIndex = index;
         let mode: string;
         let around = ['home', 'last', 'prev', 'next'];
@@ -296,7 +302,11 @@ class Pagination implements IPagination {
     }
 
     generateArray(start: number, end: number) {
-        return (Array as any).from((new Array(end + 1) as any).keys()).slice(start);
+        let arr = [];
+        for(let i = start; i <= end; i++) {
+            arr.push(i);
+        }
+        return arr;
     }
 
     createElement(tag: string, classList?: string | string[]): HTMLElement {

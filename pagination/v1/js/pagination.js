@@ -89,7 +89,7 @@ var Pagination = /** @class */ (function () {
             this.home.innerText = '首页';
             this.home.addEventListener('click', function () {
                 if (_this_1.options.pageIndex > 1) {
-                    _this_1.handleClick(1);
+                    _this_1.handleChangePage(1);
                 }
             });
             ul.appendChild(this.home);
@@ -101,7 +101,7 @@ var Pagination = /** @class */ (function () {
         // 上一页事件
         this.prev.addEventListener('click', function () {
             if (_this_1.options.pageIndex - 1 > 0) {
-                _this_1.handleClick(_this_1.options.pageIndex - 1);
+                _this_1.handleChangePage(_this_1.options.pageIndex - 1);
             }
         });
         ul.appendChild(this.prev);
@@ -118,7 +118,7 @@ var Pagination = /** @class */ (function () {
                 li.setAttribute('data-index', i.toString());
                 li.addEventListener('click', function () {
                     if (this.dataset.index != _this.options.pageIndex) {
-                        _this.handleClick(Number(this.dataset.index));
+                        _this.handleChangePage(Number(this.dataset.index));
                     }
                 });
                 (_a = this.lis) === null || _a === void 0 ? void 0 : _a.push(li);
@@ -137,7 +137,7 @@ var Pagination = /** @class */ (function () {
         // 下一页事件
         this.next.addEventListener('click', function () {
             if (_this_1.options.pageIndex < _this_1.pageNum) {
-                _this_1.handleClick(_this_1.options.pageIndex + 1);
+                _this_1.handleChangePage(_this_1.options.pageIndex + 1);
             }
         });
         ul.appendChild(this.next);
@@ -147,7 +147,7 @@ var Pagination = /** @class */ (function () {
             this.last.innerText = '尾页';
             this.last.addEventListener('click', function () {
                 if (_this_1.options.pageIndex < _this_1.pageNum) {
-                    _this_1.handleClick(_this_1.pageNum);
+                    _this_1.handleChangePage(_this_1.pageNum);
                 }
             });
             ul.appendChild(this.last);
@@ -171,16 +171,22 @@ var Pagination = /** @class */ (function () {
             this.input.value = this.options.pageIndex.toString();
             this.input.setAttribute('min', '1');
             this.input.setAttribute('max', this.pageNum.toString());
-            this.input.addEventListener('blur', function () {
-                value_1 = ~~this.value;
-                if (value_1 < 1)
-                    value_1 = 1;
-                if (value_1 > _this.pageNum)
-                    value_1 = _this.pageNum;
-                // @ts-ignore
-                this.value = value_1;
-                if (value_1 !== _this.options.pageIndex)
-                    _this.handleClick(value_1);
+            var handle = ['blur', 'keydown'];
+            handle.forEach(function (v) {
+                _this_1.input.addEventListener(v, function (e) {
+                    if (e.type === 'keydown' && e.keyCode !== 13) {
+                        return;
+                    }
+                    value_1 = ~~this.value;
+                    if (value_1 < 1)
+                        value_1 = 1;
+                    if (value_1 > _this.pageNum)
+                        value_1 = _this.pageNum;
+                    // @ts-ignore
+                    this.value = value_1;
+                    if (value_1 !== _this.options.pageIndex)
+                        _this.handleChangePage(value_1);
+                });
             });
             jumper.appendChild(this.input);
             var text_2 = this.createElement('span');
@@ -191,7 +197,7 @@ var Pagination = /** @class */ (function () {
         // 保存元素
         this.element.appendChild(container);
     };
-    Pagination.prototype.handleClick = function (index) {
+    Pagination.prototype.handleChangePage = function (index) {
         var _this_1 = this;
         this.options.pageIndex = index;
         var mode;
@@ -246,7 +252,11 @@ var Pagination = /** @class */ (function () {
         return { min: min, max: max };
     };
     Pagination.prototype.generateArray = function (start, end) {
-        return Array.from(new Array(end + 1).keys()).slice(start);
+        var arr = [];
+        for (var i = start; i <= end; i++) {
+            arr.push(i);
+        }
+        return arr;
     };
     Pagination.prototype.createElement = function (tag, classList) {
         var dom = document.createElement(tag);
