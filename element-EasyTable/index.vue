@@ -9,8 +9,8 @@
       style="width: 100%"
       v-on="$listeners"
       v-bind="$attrs"
-      @checkbox-all="handleSelectionChange"
-      @checkbox-change="handleSelectionChange"
+      @select-all="handleSelectionChange"
+      @selection-change="handleSelectionChange"
     >
       <template v-for=" (item, index) in tableOptions">
         <el-table-column
@@ -85,7 +85,7 @@
         :page-sizes="pageSizes"
         :current-page="page"
         :page-size="size"
-        layout="total, sizes, prev, pager, next, jumper"
+        :layout="layout"
         :total="total"
         :background="background"
         >
@@ -127,6 +127,10 @@ export default {
     pageSizes: {
       type: Array,
       default: () => [10, 20, 30, 40 ,50],
+    },
+    layout: {
+      type: String,
+      default: 'total, sizes, prev, pager, next, jumper'
     },
     background: {
       type: Boolean,
@@ -184,7 +188,7 @@ export default {
   methods: {
     // 全选
     handleSelectionChange(data) {
-      this.$emit('selection-change', data.selection)
+      this.$emit('selection-change', data)
     },
     // 切换每页条数
     handleChangeSize(size) {
