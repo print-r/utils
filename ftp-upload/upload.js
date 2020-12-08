@@ -1,10 +1,10 @@
 'use strict'
 // 服务器配置
 const server = {
-    host: '',
-    port: 22,
-    user: '',
-    password: '',
+    host: '192.168.33.251',
+    port: 21,
+    user: 'nyt_fronted',
+    password: 123456,
 }
 const ora = require('ora');
 const chalk = require('chalk');
@@ -14,19 +14,22 @@ const dirPath = './dist'; // 本地上传路径
 const remoteFtpPath = '/'; // 远程FTP目录
 const localFiles = []; // 本地文件
 let localFileLength = 0; // 上传文件个数
-let uploadTime = 0; // 上传耗时
 let ftp = null;
 let isUpload = null;
+let startTime;
+let endTime;
 readingFile().then(() => {
     if (localFileLength) {
         console.log(chalk.green('正在连接服务器...'))
         ftp = new FTPClient();
         ftp.on('ready', () => {
+            startTime = Date.now();
             console.log(chalk.green(`已连接到 ${server.host}`));
             // 清理文件夹
-            deleteFiles().then(res => {
+            deleteFiles().then(() => {
                 uploadingFile().then(() => {
                     console.log(chalk.green(`上传完成，本次上传${localFiles.length}个文件`));
+                    console.log(chalk.green(`消耗时间：${(endTime - startTime) / 1000}s`));
                 }).catch(err => {
                     console.log(err);
                 })
@@ -101,10 +104,9 @@ function uploadingFile() {
                 clearInterval(timer);
                 resolve();
                 isUpload.stop()
+                endTime = Date.now();
             }
-            uploadTime++;
-            console.log(chalk.green(`消耗时间：${uploadTime}s`));
-        }, 1000);
+        }, 100);
     })
 }
 // 覆盖上传文件
