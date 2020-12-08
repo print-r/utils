@@ -94,19 +94,19 @@ function readFiles(filepath) {
 // 正在上传文件
 function uploadingFile() {
     return new Promise((resolve, reject) => {
-        localFiles.map(file => {
-            uploadFiles(file.dir, file.filepath, file.filedata).catch(err => reject(err));
-        })
         isUpload = ora(chalk.green('正在上传，请稍后...'))
         isUpload.start()
-        let timer = setInterval(() => {
-            if (localFileLength == 0) {
-                clearInterval(timer);
-                resolve();
-                isUpload.stop()
-                endTime = Date.now();
-            }
-        }, 100);
+        localFiles.map(file => {
+            uploadFiles(file.dir, file.filepath, file.filedata)
+                .then(res => {
+                    if (res == 0) {
+                        resolve();
+                        isUpload.stop()
+                        endTime = Date.now();
+                    }
+                })
+                .catch(err => reject(err));
+        })
     })
 }
 // 覆盖上传文件
@@ -118,7 +118,7 @@ function uploadFiles(dir, filepath, filedata) {
                 if (err2) reject(err2);
                 localFileLength--;
                 ftp.end();
-                resolve();
+                resolve(localFileLength);
             });
         })
     })
