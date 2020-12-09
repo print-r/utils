@@ -9,7 +9,9 @@ class Scroll {
             scrollEl: '',
             direction: 'y',
             speed: 50,
+            hoverStop: false,
         };
+        this.isRun = true;
         for (let name in param) {
             this.config[name] = param[name] || this.config[name];
         }
@@ -22,6 +24,7 @@ class Scroll {
     /* 初始化 */
     init() {
         let _this = this;
+        let timer = null;
         //可视盒子
         let box = document.querySelector(this.config.visualEl);
         //滚动元素
@@ -41,9 +44,19 @@ class Scroll {
         }
         //执行速度
         let speed = (typeof this.config.speed == 'number') ? this.config.speed : 50;
-        setInterval(function () {
+        timer = setInterval(function () {
             _this.handleScroll(box, list_1, list_2);
         }, speed);
+        if (this.config.hoverStop) {
+            box.addEventListener('mouseover', () => {
+                clearInterval(timer);
+            });
+            box.addEventListener('mouseout', () => {
+                timer = setInterval(function () {
+                    _this.handleScroll(box, list_1, list_2);
+                }, speed);
+            });
+        }
     }
     /* 滚动 */
     handleScroll(box, list_1, list_2) {

@@ -7,91 +7,86 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>中奖信息无缝滚动</title>
     <style>
-        *
-        {
+        * {
             margin: 0;
             padding: 0;
             list-style: none;
         }
-        .clearfix::after,.clearfix::before
-        {
+        
+        .clearfix::after,
+        .clearfix::before {
             display: block;
-            content:'';
+            content: '';
             clear: both;
         }
-        .winning_list
-        {
+        
+        .winning_list {
             width: 420px;
             height: 120px;
             border-radius: 10px;
             border: 1px solid #000;
-            padding:8px 16px;
+            padding: 8px 16px;
             overflow: hidden;
             box-sizing: border-box;
-
-            z-index:9;
-            margin:100px auto;
-            
+            z-index: 9;
+            margin: 100px auto;
         }
-       
-        .winning_list ul
-        {
+        
+        .winning_list ul {
             width: 100%;
             padding: 0;
             transition: all .1s;
         }
-        .winning_list ul li
-        {
+        
+        .winning_list ul li {
             height: 35px;
             line-height: 35px;
         }
-        .winning_list ul li .tips_text
-        {
+        
+        .winning_list ul li .tips_text {
             margin-right: 14px;
         }
-        .winning_list ul li .name
-        {
+        
+        .winning_list ul li .name {
             display: inline-block;
             width: 120px;
         }
-        .winning_list ul li .draw_code
-        {
+        
+        .winning_list ul li .draw_code {
             display: inline-block;
             width: 150px;
             margin-left: 5px;
             /* overflow:hidden;
             text-overflow:ellipsis;
             white-space:nowrap */
-            
         }
-        .winning_list_x
-        {
+        
+        .winning_list_x {
             width: 420px;
             height: 50px;
             line-height: 50px;
             border-radius: 10px;
             border: 1px solid #000;
-            padding:8px 16px;
+            padding: 8px 16px;
             overflow: hidden;
             box-sizing: border-box;
-
-            z-index:9;
-            margin:100px auto;
+            z-index: 9;
+            margin: 100px auto;
         }
-        .winning_list_x ul
-        {
+        
+        .winning_list_x ul {
             height: 35px;
             line-height: 35px;
-            margin:0 auto;
+            margin: 0 auto;
             float: left;
         }
-        .winning_list_x ul li
-        {
+        
+        .winning_list_x ul li {
             float: left;
             width: 410px;
         }
-        .box
-        {
+        
+        .box {
             height: 100%;
         }
     </style>
@@ -101,64 +96,53 @@
 <body>
     <div class="winning_list">
         <ul class="_list1 clearfix">
-           
+
             <li><span class="tips_text">恭喜</span> <span class="name">138****5393</span> <span class="draw_code">获得20元券
                     碧...</span> <span> 2天前</span></li>
-            <li><span class="tips_text">恭喜</span> <span class="name">132****8363</span> <span
-                    class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
+            <li><span class="tips_text">恭喜</span> <span class="name">132****8363</span> <span class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
             <li><span class="tips_text">恭喜</span> <span class="name">136****1040</span> <span class="draw_code">获得20元券
                     碧...</span> <span> 2天前</span></li>
             <li><span class="tips_text">恭喜</span> <span class="name">136****1040</span> <span class="draw_code">获得20元券
                     碧...</span> <span> 2天前</span></li>
-            <li><span class="tips_text">恭喜</span> <span class="name">136****1040</span> <span
-                    class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
-            <li><span class="tips_text">恭喜</span> <span class="name">180****3575</span> <span
-                    class="draw_code">获得防水轻便旅游...</span> <span> 2天前</span></li>
-            <li><span class="tips_text">恭喜</span> <span class="name">180****3575</span> <span
-                    class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
+            <li><span class="tips_text">恭喜</span> <span class="name">136****1040</span> <span class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
+            <li><span class="tips_text">恭喜</span> <span class="name">180****3575</span> <span class="draw_code">获得防水轻便旅游...</span> <span> 2天前</span></li>
+            <li><span class="tips_text">恭喜</span> <span class="name">180****3575</span> <span class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
             <li><span class="tips_text">恭喜</span> <span class="name">180****3575</span> <span class="draw_code">获得20元券
                     碧...</span> <span> 2天前</span></li>
             <li><span class="tips_text">恭喜</span> <span class="name">180****3575</span> <span class="draw_code">获得3元券
                     舌尖...</span> <span> 2天前</span></li>
-            <li><span class="tips_text">恭喜</span> <span class="name">138****9953</span> <span
-                    class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
+            <li><span class="tips_text">恭喜</span> <span class="name">138****9953</span> <span class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
             <li><span class="tips_text">恭喜</span> <span class="name">135****0778</span> <span class="draw_code">获得3元券
                     舌尖...</span> <span> 2天前</span></li>
             <li><span class="tips_text">恭喜</span> <span class="name">247****80...</span> <span class="draw_code">获得20元券
                     碧...</span> <span> 2天前</span></li>
-            <li><span class="tips_text">恭喜</span> <span class="name">247****80...</span> <span
-                    class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
+            <li><span class="tips_text">恭喜</span> <span class="name">247****80...</span> <span class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
             <li><span class="tips_text">恭喜</span> <span class="name">150****0284</span> <span class="draw_code">获得3元券
                     舌尖...</span> <span> 2天前</span></li>
             <li><span class="tips_text">恭喜</span> <span class="name">150****0284</span> <span class="draw_code">获得20元券
                     碧...</span> <span> 2天前</span></li>
-            <li><span class="tips_text">恭喜</span> <span class="name">150****0284</span> <span
-                    class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
+            <li><span class="tips_text">恭喜</span> <span class="name">150****0284</span> <span class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
             <li><span class="tips_text">恭喜</span> <span class="name">186****4774</span> <span class="draw_code">获得3元券
                     舌尖...</span> <span> 2天前</span></li>
             <li><span class="tips_text">恭喜</span> <span class="name">151****8283</span> <span class="draw_code">获得3元券
                     舌尖...</span> <span> 2天前</span></li>
-            <li><span class="tips_text">恭喜</span> <span class="name">R******</span> <span
-                    class="draw_code">获得５元券吕ＲＹ...</span> <span> 3天前</span></li>
+            <li><span class="tips_text">恭喜</span> <span class="name">R******</span> <span class="draw_code">获得５元券吕ＲＹ...</span> <span> 3天前</span></li>
             <li><span class="tips_text">恭喜</span> <span class="name">185****1296</span> <span class="draw_code">获得3元券
                     舌尖...</span> <span> 3天前</span></li>
-            <li><span class="tips_text">恭喜</span> <span class="name">185****1296</span> <span
-                    class="draw_code">获得防水轻便旅游...</span> <span> 3天前</span></li>
-            <li><span class="tips_text">恭喜</span> <span class="name">185****1296</span> <span
-                    class="draw_code">获得５元券吕ＲＹ...</span> <span> 3天前</span></li>
+            <li><span class="tips_text">恭喜</span> <span class="name">185****1296</span> <span class="draw_code">获得防水轻便旅游...</span> <span> 3天前</span></li>
+            <li><span class="tips_text">恭喜</span> <span class="name">185****1296</span> <span class="draw_code">获得５元券吕ＲＹ...</span> <span> 3天前</span></li>
         </ul>
     </div>
     <div class="winning_list_x clearfix">
         <div class="box">
             <ul class="_list_x clearfix">
-           
-            <li><span class="tips_text">恭喜</span> <span class="name">138****5393</span> <span class="draw_code">获得20元券
+
+                <li><span class="tips_text">恭喜</span> <span class="name">138****5393</span> <span class="draw_code">获得20元券
                     碧...</span> <span> 2天前</span></li>
-            <li><span class="tips_text">恭喜</span> <span class="name">132****8363</span> <span
-                    class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
-            <li><span class="tips_text">恭喜</span> <span class="name">136****1040</span> <span class="draw_code">获得20元券
+                <li><span class="tips_text">恭喜</span> <span class="name">132****8363</span> <span class="draw_code">获得５元券吕ＲＹ...</span> <span> 2天前</span></li>
+                <li><span class="tips_text">恭喜</span> <span class="name">136****1040</span> <span class="draw_code">获得20元券
                     碧...</span> <span> 2天前</span></li>
-            
+
             </ul>
         </div>
     </div>
@@ -168,16 +152,26 @@
 
 <script>
     new Scroll({
-        visualEl:'.winning_list', /* 可视元素（最外层元素） */
-        scrollEl:'._list1', /* 滚动元素 */ 
-        direction:'y', /* 默认垂直滚动 */
-        speed:10, /* 滚动速度 */
+        visualEl: '.winning_list',
+        /* 可视元素（最外层元素） */
+        scrollEl: '._list1',
+        /* 滚动元素 */
+        direction: 'y',
+        /* 默认垂直滚动 */
+        speed: 10,
+        /* 滚动速度 */
+        hoverStop: true,
     })
     new Scroll({
-        visualEl:'.winning_list_x', /* 可视元素（最外层元素） */
-        scrollEl:'._list_x', /* 滚动元素 */ 
-        direction:'x', /* 水平滚动 */
-        addEl:'.box', /* 水平滚动时需要添加多一个外层元素 */
-        speed:10, /* 滚动速度 */
+        visualEl: '.winning_list_x',
+        /* 可视元素（最外层元素） */
+        scrollEl: '._list_x',
+        /* 滚动元素 */
+        direction: 'x',
+        /* 水平滚动 */
+        addEl: '.box',
+        /* 水平滚动时需要添加多一个外层元素 */
+        speed: 10,
+        /* 滚动速度 */
     })
 </script>

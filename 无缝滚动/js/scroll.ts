@@ -8,7 +8,9 @@ class Scroll
         scrollEl:'', /* 滚动元素 */ 
         direction:'y', /* 默认垂直滚动 */
         speed:50, /* 滚动速度 */
+        hoverStop: false, // 鼠标放上停止
     };
+    public isRun = true;
     /* 构造函数 */
     constructor(param:any)
     {
@@ -27,6 +29,7 @@ class Scroll
     public init():void
     {
         let _this = this
+        let timer: any = null
         //可视盒子
         let box = document.querySelector(this.config.visualEl);
         //滚动元素
@@ -48,9 +51,20 @@ class Scroll
         
         //执行速度
         let speed = (typeof this.config.speed == 'number') ? this.config.speed :　50
-        setInterval(function(){
+        timer = setInterval(function(){
             _this.handleScroll(box,list_1,list_2)
         },speed)
+
+        if (this.config.hoverStop) {
+            box.addEventListener('mouseover', () => {
+                clearInterval(timer)
+            })
+            box.addEventListener('mouseout', () => {
+                timer = setInterval(function(){
+                    _this.handleScroll(box,list_1,list_2)
+                },speed)
+            })
+        }
     }
 
     /* 滚动 */
