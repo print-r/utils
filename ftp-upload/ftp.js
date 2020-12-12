@@ -1,17 +1,17 @@
 'use strict'
 // 服务器配置
 const server = {
-    host: '192.168.33.251',
+    host: '',
     port: 21,
-    user: 'nyt_fronted',
-    password: 123456,
+    user: '',
+    password: '',
 }
 const ora = require('ora');
 const chalk = require('chalk');
 const fs = require('fs');
 const FTPClient = require('ftp');
 const dirPath = './dist'; // 本地上传路径
-const remoteFtpPath = '/'; // 远程FTP目录
+const remoteFtpPath = '/www/wwwroot/nyt_fronted'; // 远程FTP目录
 const localFiles = []; // 本地文件
 let localFileLength = 0; // 上传文件个数
 let ftp = null;
