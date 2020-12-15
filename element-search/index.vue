@@ -42,11 +42,16 @@ export default {
             type: Function,
             default: () => {},
         },
+        repeatRequest: {
+            type: Boolean,
+            default: false,
+        }
     },
 
     data() {
         return {
             searchOptions: [],
+            oldParams: {},
         }
     },
 
@@ -156,6 +161,7 @@ export default {
                     request: v.request || rules.request,
                     params: v.params || rules.params,
                 })
+                this.oldParams[v.prop] = v.value || '';
             })
         },
         handleSetValue(evt) {
@@ -172,6 +178,9 @@ export default {
                 this.searchOptions.forEach( v => {
                     params[v.prop] = v.value;
                 })
+                if (!this.repeatRequest && JSON.stringify(this.oldParams) == JSON.stringify(params))
+                return
+                this.oldParams = Object.assign({}, JSON.parse(JSON.stringify(params)));
                 this.search(params);
             }
         },
