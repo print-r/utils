@@ -44,7 +44,7 @@ export default {
         },
         repeatRequest: {
             type: Boolean,
-            default: false,
+            default: true,
         }
     },
 
