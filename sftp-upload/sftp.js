@@ -174,6 +174,8 @@ function upload() {
                         resolve()
                     }
                     step++;
+                }).catch(err => {
+                    console.log(chalk.red(err))
                 })
             }
         })
