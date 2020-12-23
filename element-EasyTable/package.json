@@ -1,0 +1,16 @@
+{
+    "name": "vue-element-easy-table",
+    "version": "0.1.5",
+    "description": "基于element-ui table 二次封装的简单表格",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "vue-element-easy-table",
+        "easy-table",
+        "table"
+    ],
+    "author": "Cai",
+    "license": "ISC"
+}

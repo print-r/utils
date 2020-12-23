@@ -3,7 +3,7 @@ export default {
     props: {
         row: {
             type: Object,
-            default: () => {},
+            default: () => new Object,
         },
         render: {
             type: Function,
@@ -15,7 +15,6 @@ export default {
         },
     },
     render: (h, evt) => {
-        evt.props.row.$index = evt.props.index;
-        return evt.props.render(h, evt.props.row);
+        return evt.props.render.call(evt.parent, h, evt.props.row);
     }
 };
