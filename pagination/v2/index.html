@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>demo</title>
+    <title>仿elementui分页，原生js分页插件</title>
     <link rel="stylesheet" href="./css/pagination.css">
     <script src="./js/pagination.js"></script>
 </head>
@@ -35,7 +35,7 @@
         type: 1,  // 样式类型，默认1 ，目前可选 [1,2] 可自行增加样式   [非必填]
         layout: 'total, sizes, home, prev, pager, next, last, jumper',  // [必填]
         pageIndex: 1, // 当前页码 [非必填]
-        pageSize: 10, // 每页显示条数   TODO: 如果使用了sizes这里就无须传参，传了也无效 [必填]
+        pageSize: 20, // 每页显示条数   TODO: 默认选中sizes [必填]
         pageCount: 9, // 页码显示数量，页码必须大于等于5的奇数，默认页码9  TODO:为了样式美观，参数只能为奇数， 否则会报错 [非必填]
         total: 1000, // 数据总条数 [必填]
         singlePageHide: false,  // 单页隐藏， 默认true  如果为true页码少于一页则不会渲染 [非必填]

@@ -10,6 +10,7 @@ interface IPagination {
     showSelector: boolean
     pageNum: number
     selectedIndex: number
+    uniqid: string
     init: (options: IPaginationOptions) => void
     render: () => void
     home: () => HTMLElement
@@ -117,6 +118,8 @@ class Pagination implements IPagination {
 
     selectedIndex  = 0;
 
+    uniqid = Math.random().toString(36).substr(2);
+
     constructor(options: IPaginationOptions) {
         if (this.validate(options)) {
             this.init(options);
@@ -135,6 +138,11 @@ class Pagination implements IPagination {
     render(this: IPagination): void {
         // 切换每页显示条数重新替换每页条数参数
         if (this.options.layout.indexOf('sizes') !== -1 && this.options.pageSizes instanceof Array) {
+            this.options.pageSizes.forEach( (v, k) => {
+                if (v == this.options.pageSize) {
+                    this.selectedIndex = k;
+                }
+            })
             if (!isNaN(this.options.pageSizes[this.selectedIndex])) {
                 this.options.pageSize = this.options.pageSizes[this.selectedIndex];
             }
@@ -318,7 +326,7 @@ class Pagination implements IPagination {
         jumper.appendChild(text_1);
         let value = 0;
         // 输入框
-        let input = this.createElement('input', '_jumper_input') as HTMLInputElement;
+        let input = this.createElement('input', ['_jumper_input', this.uniqid]) as HTMLInputElement;
         input.type = 'number';
         input.value = this.options.pageIndex.toString();
         input.setAttribute('min', '1');
@@ -335,6 +343,12 @@ class Pagination implements IPagination {
                 // @ts-ignore
                 this.value = value;
                 if (value !== _this.options.pageIndex) _this.handleChangePage(value);
+                // 获取焦点
+                if (e.keyCode == 13) {
+                    setTimeout(() => {
+                        (document.querySelector(`.${_this.uniqid}`) as HTMLInputElement).focus()
+                    })
+                }
             });
         });
         jumper.appendChild(input);
@@ -411,7 +425,13 @@ class Pagination implements IPagination {
         this.options.pageIndex = index;
         this.showSelector = false;
         // 回调
-        typeof this.options.currentChange === 'function' && this.options.currentChange(index, this.options.pageSizes[this.selectedIndex]);
+        if (typeof this.options.currentChange === 'function') {
+            
+            if (this.options.pageSizes[this.selectedIndex])
+            this.options.pageSize = this.options.pageSizes[this.selectedIndex];
+            
+            this.options.currentChange(index, this.options.pageSize);
+        }
         // 重新渲染
         this.render();
     }

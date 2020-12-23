@@ -52,6 +52,7 @@ var Pagination = /** @class */ (function () {
         this.pageNum = 0;
         this.showSelector = false;
         this.selectedIndex = 0;
+        this.uniqid = Math.random().toString(36).substr(2);
         if (this.validate(options)) {
             this.init(options);
         }
@@ -68,6 +69,11 @@ var Pagination = /** @class */ (function () {
         var _this_1 = this;
         // 切换每页显示条数重新替换每页条数参数
         if (this.options.layout.indexOf('sizes') !== -1 && this.options.pageSizes instanceof Array) {
+            this.options.pageSizes.forEach(function (v, k) {
+                if (v == _this_1.options.pageSize) {
+                    _this_1.selectedIndex = k;
+                }
+            });
             if (!isNaN(this.options.pageSizes[this.selectedIndex])) {
                 this.options.pageSize = this.options.pageSizes[this.selectedIndex];
             }
@@ -257,7 +263,7 @@ var Pagination = /** @class */ (function () {
         jumper.appendChild(text_1);
         var value = 0;
         // 输入框
-        var input = this.createElement('input', '_jumper_input');
+        var input = this.createElement('input', ['_jumper_input', this.uniqid]);
         input.type = 'number';
         input.value = this.options.pageIndex.toString();
         input.setAttribute('min', '1');
@@ -277,6 +283,12 @@ var Pagination = /** @class */ (function () {
                 this.value = value;
                 if (value !== _this.options.pageIndex)
                     _this.handleChangePage(value);
+                // 获取焦点
+                if (e.keyCode == 13) {
+                    setTimeout(function () {
+                        document.querySelector("." + _this.uniqid).focus();
+                    });
+                }
             });
         });
         jumper.appendChild(input);
@@ -354,7 +366,11 @@ var Pagination = /** @class */ (function () {
         this.options.pageIndex = index;
         this.showSelector = false;
         // 回调
-        typeof this.options.currentChange === 'function' && this.options.currentChange(index, this.options.pageSizes[this.selectedIndex]);
+        if (typeof this.options.currentChange === 'function') {
+            if (this.options.pageSizes[this.selectedIndex])
+                this.options.pageSize = this.options.pageSizes[this.selectedIndex];
+            this.options.currentChange(index, this.options.pageSize);
+        }
         // 重新渲染
         this.render();
     };
