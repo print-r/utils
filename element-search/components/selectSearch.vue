@@ -13,8 +13,8 @@
             :remote-method="handleSearch"
           >
             <el-option
-              v-for="(item, index) in options"
-              :key="index"
+              v-for="item in options"
+              :key="item.value"
               :label="item.label"
               :value="item.value"
             >

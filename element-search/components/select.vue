@@ -1,5 +1,5 @@
 <template>
-    <div class="_select" v-if="item.options.length">
+    <div class="_select" >
          <span>{{ item.text }}：</span>
           <el-select
             class="textField-filled-rounded"
