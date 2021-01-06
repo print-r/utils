@@ -12,7 +12,7 @@
                 style="marginRight: 12px"
                 @click="handleSearch"
               >
-                搜索
+                {{ searchText }}
               </div>
               <div
                 class="button-base small success"
@@ -45,6 +45,10 @@ export default {
         repeatRequest: {
             type: Boolean,
             default: true,
+        },
+        searchText: {
+            type: String,
+            default: '搜索',
         }
     },
 
@@ -81,6 +85,7 @@ export default {
                 },
                 number: {
                     target: 'el-input',
+                    value: '', // 默认值
                     attrs: {
                         type: 'number',
                         clearable: 'clearable',
@@ -144,23 +149,16 @@ export default {
     // void
     methods:{
         init() {
+            let data = {};
             this.searchOptions = [];
             this.options.forEach( v => {
                 let rules = this.rules[v.type];
-                this.searchOptions.push({
-                    text: v.text,   
-                    prop: v.prop,
-                    value: v.value != void 0 ? v.value : '',
-                    target: rules.target,
-                    attrs: v.attrs || rules.attrs,
-                    placeholder: v.placeholder || rules.placeholder,
-                    handler: v.handler || rules.handler,
-                    components: rules.components || '',
-                    options: v.options || [],
-                    selected: v.selected || '',
-                    request: v.request || rules.request,
-                    params: v.params || rules.params,
+                Object.keys(this.rules).forEach( key => {
+                    if (v.type == key) {
+                        data = {...this.rules[key], ...v}
+                    }
                 })
+                this.searchOptions.push(Object.assign({}, data));
                 this.oldParams[v.prop] = v.value || '';
             })
         },
@@ -172,7 +170,7 @@ export default {
             })
             evt.isAction && this.handleSearch();
         },
-        handleSearch() {
+        handleSearch(status) {
             if (typeof this.search === 'function') {
                 let params = {};
                 this.searchOptions.forEach( v => {
@@ -181,7 +179,7 @@ export default {
                 if (!this.repeatRequest && JSON.stringify(this.oldParams) == JSON.stringify(params))
                 return
                 this.oldParams = Object.assign({}, JSON.parse(JSON.stringify(params)));
-                this.search(params);
+                this.search(params, status);
             }
         },
         handleReset() {
@@ -189,7 +187,7 @@ export default {
                 v.value = '';
                 v = Object.assign({}, v);
             })
-            this.handleSearch();
+            this.handleSearch('reset');
         },
     },
 
