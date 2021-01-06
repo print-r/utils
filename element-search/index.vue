@@ -95,6 +95,7 @@ export default {
                 },
                 date: {
                     target: 'el-date-picker',
+                    value: '',
                     type: '',
                     attrs: {
                         'value-format': 'yyyy/MM/dd'
@@ -104,6 +105,7 @@ export default {
                 },
                 dateRange: {
                     target: 'el-date-picker',
+                    value: '',
                     type: '',
                     attrs: {
                         'type': 'datetimerange',
@@ -117,6 +119,7 @@ export default {
                 select: {
                     components: 'select', // 组件名称
                     target: '',
+                    value: '',
                     type: '',
                     value: '',
                     attrs: {},
@@ -127,6 +130,7 @@ export default {
                 selectSearch: {
                     components: 'selectSearch', // 组件名称
                     target: '',
+                    value: '',
                     type: '',
                     value: '',
                     attrs: {},
