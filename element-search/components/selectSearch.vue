@@ -1,6 +1,6 @@
 <template>
     <div class="_select">
-         <span>{{ item.text }}：</span>
+         <span class="font-weight-bold label">{{ item.text }}：</span>
           <el-select
             class="textField-filled-rounded"
             size="small"
@@ -119,5 +119,12 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-
+._select {
+    .label {
+        display: inline-block;
+        min-width: 80px;
+        white-space: nowrap;
+        text-align: right;
+    }
+}
 </style>

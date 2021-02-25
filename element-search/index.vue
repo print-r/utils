@@ -1,25 +1,33 @@
 <template>
-    <div class="_search">
-        <div class="search-item" v-for="(item, index) in searchOptions" :key="index">
-          <span v-if="!item.components" class="label font-size-14px white-space-nowrap font-color-grey4"
-            >{{ item.text }}：</span
-          >
-          <SearchRender :item="item" @handleSearch="handleSearch" @handleSetValue="handleSetValue" />
+    <div>
+        <div class="_search">
+            <div class="search-item" v-for="(item, index) in searchOptions" :key="index">
+                <div v-if="!item.components" class="label font-size-14px white-space-nowrap font-color-grey4"
+                    >{{ item.text }}：</div
+                >
+                <SearchRender :item="item" @handleSearch="handleSearch" @handleSetValue="handleSetValue" />
+            </div>
+            <div class="search-item">
+                <div
+                    class="button-base small"
+                    style="marginRight: 12px"
+                    @click="handleSearch"
+                >
+                    {{ searchText }}
+                </div>
+                <div
+                    class="button-base small success"
+                    @click="handleReset"
+                >
+                    重置
+                </div>
+            </div>
         </div>
-        <div class="search-item">
-             <div
-                class="button-base small"
-                style="marginRight: 12px"
-                @click="handleSearch"
-              >
-                {{ searchText }}
-              </div>
-              <div
-                class="button-base small success"
-                @click="handleReset"
-              >
-                重置
-              </div>
+        <div class="lookMore" v-if="options.length > 4">
+            <span class="_open" @click="handleOpen">
+                <span>{{isOpen ? '收起' : '展开'}}</span>
+                <i :class="{_isOpen: !isOpen}" class="el-select__caret el-input__icon el-icon-arrow-up _lookMore_icon"></i>
+            </span>
         </div>
     </div>
 </template>
@@ -56,6 +64,8 @@ export default {
         return {
             searchOptions: [],
             oldParams: {},
+            moreOptions: [],
+            isOpen: false,
         }
     },
 
@@ -121,7 +131,6 @@ export default {
                     target: '',
                     value: '',
                     type: '',
-                    value: '',
                     attrs: {},
                     placeholder: '请选择',
                     handler: [], // 可填 change
@@ -132,7 +141,6 @@ export default {
                     target: '',
                     value: '',
                     type: '',
-                    value: '',
                     attrs: {},
                     placeholder: '请选择',
                     request: {
@@ -153,9 +161,14 @@ export default {
     // void
     methods:{
         init() {
+            this.isOpen = false;
+            this.handleRender();
+        },
+        handleRender() {
             let data = {};
             this.searchOptions = [];
-            this.options.forEach( v => {
+            this.options.forEach( (v, k) => {
+                if (!this.isOpen && k >= 4) return;
                 let rules = this.rules[v.type];
                 Object.keys(this.rules).forEach( key => {
                     if (v.type == key) {
@@ -163,7 +176,6 @@ export default {
                     }
                 })
                 this.searchOptions.push(Object.assign({}, data));
-                this.oldParams[v.prop] = v.value || '';
             })
         },
         handleSetValue(evt) {
@@ -193,6 +205,17 @@ export default {
             })
             this.handleSearch('reset');
         },
+        handleOpen() {
+            this.isOpen = !this.isOpen;
+            this.options.forEach( v => {
+                this.searchOptions.forEach( vv => {
+                    if (v.prop == vv.prop) {
+                        v.value = vv.value
+                    }
+                })
+            })
+            this.handleRender();
+        }
     },
 
     // 生命周期 - 创建之前
@@ -205,9 +228,7 @@ export default {
     beforeMount() {},
 
     // 生命周期 - 挂载完成
-    mounted() {
-        
-    },
+    mounted() {},
 
     // 生命周期 - 更新之前
     beforeUpdate() {},
@@ -253,6 +274,7 @@ export default {
 .search-item .label
 {
     font-weight: 700;
+    text-align: right;
 }
 
 
@@ -263,6 +285,27 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.lookMore {
+
+    font-size: 13px;
+    color: rgba(133, 133, 133, 0.5);
+
+    text-align: center;
+}
+
+.lookMore ._open {
+    cursor: pointer;
+}
+
+._lookMore_icon {
+    font-weight: 700;
+    transition: .3s;
+}
+
+._isOpen {
+    transform: rotate(180deg);
 }
 
 </style>
