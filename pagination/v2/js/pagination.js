@@ -325,6 +325,7 @@ var Pagination = /** @class */ (function () {
                         }
                         else {
                             var mode_1 = _this.showSelector ? 'remove' : 'add';
+                            i.classList[mode_1]('_sizes_icon_rotate');
                             box.classList[mode_1]('_sizes_select_container_show');
                             _this.showSelector = !_this.showSelector;
                         }

@@ -384,6 +384,7 @@ class Pagination implements IPagination {
                             _this.handleChangePage(1);
                         } else {
                             let mode = _this.showSelector ? 'remove' : 'add';
+                            (i as any).classList[mode]('_sizes_icon_rotate');
                             (box as any).classList[mode]('_sizes_select_container_show');
                             _this.showSelector = !_this.showSelector;
                         }
